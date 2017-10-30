@@ -13,6 +13,7 @@ func Run(host string) {
 		return "Hello this is saber Sayaka !"
 	})
 	searchGroupInit(m)
+	downloadGroupInit(m)
 	m.Use(func(res http.ResponseWriter) {
 		// res.Header().Set("Content-Type", "application/json")
 		res.Header().Set("Access-Control-Allow-Origin", "*")

@@ -51,8 +51,16 @@ func Search(words string, stype string, page int, limit int) string {
 /**
  * 根据传入id返回生成的mp3地址
  */
-func Download(id string) string {
-	return "http://music.163.com/api/song/enhance/download/url?br=320000&id=" + id
+func Download(id string, rate string) string {
+	res, err := http.Get("http://music.163.com/api/song/enhance/download/url?br=" + rate + "&id=" + id)
+	// 错误处理
+	if err != nil {
+		fmt.Println("Fatal error ", err)
+		return `{code: 0}`
+	}
+	defer res.Body.Close()
+	rs, _ := ioutil.ReadAll(res.Body)
+	return string(rs)
 }
 
 /**
