@@ -13,7 +13,9 @@ type ReqResult struct {
 	msg string
 	data interface{}
 }
-
+/**
+ * 初始化搜索路由组
+ */
 func searchGroupInit(m *martini.ClassicMartini) {
 	m.Group("/search", func(router martini.Router) {
 		router.Get("/:words/:page/:limit", func(p martini.Params, r render.Render) {
@@ -24,6 +26,9 @@ func searchGroupInit(m *martini.ClassicMartini) {
 		})
 		router.Get("/artist/:words/:page/:limit", func(p martini.Params, r render.Render) {
 			doSearch(p, r, "100")
+		})
+		router.Get("/download/:id", func(p martini.Params) string {
+			return madoka.Download(p["id"])
 		})
 	})
 }

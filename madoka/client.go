@@ -8,6 +8,8 @@ import (
 	"io/ioutil"
 	"net/url"
 	"strconv"
+	"crypto/md5"
+	"encoding/base64"
 )
 
 /** 
@@ -47,6 +49,13 @@ func Search(words string, stype string, page int, limit int) string {
 }
 
 /**
+ * 根据传入id返回生成的mp3地址
+ */
+func Download(id string) string {
+	return "http://music.163.com/api/song/enhance/download/url?br=320000&id=" + id
+}
+
+/**
 * 传入 搜索类型 页码 数量
 * 返回 搜索类型 偏移 数量
 */
@@ -58,4 +67,24 @@ func formatParams(page int, limit int) (string, string) {
 		limit = 0
 	}
 	return strconv.Itoa((page - 1) * limit), strconv.Itoa(limit)
+}
+
+func encryptSongId(_id string) string {
+	// 5249677
+	rs := [50]byte{}
+	magic := []byte("3go8&$8*3*3h0k(2)2")
+	magic_len := len(magic)
+	id := []byte(_id)
+	id_len := len(id)
+	for i := 0; i < id_len; i++ {
+		rs[i] = id[i] ^ magic[i % magic_len]
+	}
+	m := md5.New()
+	m.Write(id)
+	md5Sum := m.Sum(nil)
+	fmt.Println(md5Sum)
+	b := base64.StdEncoding.EncodeToString(md5Sum)
+	b = strings.Replace(b, "/", "_", -1)
+	b = strings.Replace(b, "+", "-", -1)
+    return b
 }
