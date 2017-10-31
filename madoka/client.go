@@ -8,8 +8,6 @@ import (
 	"io/ioutil"
 	"net/url"
 	"strconv"
-	"crypto/md5"
-	"encoding/base64"
 )
 
 /** 
@@ -63,6 +61,18 @@ func Download(id string, rate string) string {
 	return string(rs)
 }
 
+func SongInfo(id string) string {
+	res, err := http.Get("http://music.163.com/api/song/detail/?id=" + id + "&ids=[" + id + "]")
+	// 错误处理
+	if err != nil {
+		fmt.Println("Fatal error ", err)
+		return `{code: 0}`
+	}
+	defer res.Body.Close()
+	rs, _ := ioutil.ReadAll(res.Body)
+	return string(rs)
+}
+
 /**
 * 传入 搜索类型 页码 数量
 * 返回 搜索类型 偏移 数量
@@ -75,24 +85,4 @@ func formatParams(page int, limit int) (string, string) {
 		limit = 0
 	}
 	return strconv.Itoa((page - 1) * limit), strconv.Itoa(limit)
-}
-
-func encryptSongId(_id string) string {
-	// 5249677
-	rs := [50]byte{}
-	magic := []byte("3go8&$8*3*3h0k(2)2")
-	magic_len := len(magic)
-	id := []byte(_id)
-	id_len := len(id)
-	for i := 0; i < id_len; i++ {
-		rs[i] = id[i] ^ magic[i % magic_len]
-	}
-	m := md5.New()
-	m.Write(id)
-	md5Sum := m.Sum(nil)
-	fmt.Println(md5Sum)
-	b := base64.StdEncoding.EncodeToString(md5Sum)
-	b = strings.Replace(b, "/", "_", -1)
-	b = strings.Replace(b, "+", "-", -1)
-    return b
 }

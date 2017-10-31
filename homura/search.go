@@ -1,4 +1,4 @@
-package sayaka
+package homura
 
 import (
 	"github.com/go-martini/martini"
@@ -12,7 +12,7 @@ import (
 /**
  * 初始化搜索路由组
  */
-func searchGroupInit(m *martini.ClassicMartini) {
+func SearchGroupInit(m *martini.ClassicMartini) {
 	m.Group("/search", func(router martini.Router) {
 		router.Get("/:words/:page/:limit", func(p martini.Params, r render.Render) {
 			doSearch(p, r, "1")

@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
+	"../homura"
 )
 
 func Run(host string) {
@@ -12,8 +13,9 @@ func Run(host string) {
 	m.Get("/", func() string {
 		return "Hello this is saber Sayaka !"
 	})
-	searchGroupInit(m)
-	downloadGroupInit(m)
+	homura.SearchGroupInit(m)
+	homura.DownloadGroupInit(m)
+	homura.InfoGroupInit(m)
 	m.Use(func(res http.ResponseWriter) {
 		// res.Header().Set("Content-Type", "application/json")
 		res.Header().Set("Access-Control-Allow-Origin", "*")

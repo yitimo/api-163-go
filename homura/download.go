@@ -1,4 +1,4 @@
-package sayaka
+package homura
 
 import (
 	"github.com/go-martini/martini"
@@ -10,7 +10,7 @@ import (
 /**
  * 初始化搜索路由组
  */
- func downloadGroupInit(m *martini.ClassicMartini) {
+ func DownloadGroupInit(m *martini.ClassicMartini) {
 	m.Group("/download", func(router martini.Router) {
 		router.Get("/:id", func(p martini.Params, r render.Render) {
 			getDownloadUrl(p["id"], "320000", r)
