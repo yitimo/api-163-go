@@ -1,7 +1,6 @@
 package madoka
 
 import (
-	"os"
 	"strings"
 	"fmt"
 	"net/http"
@@ -39,7 +38,7 @@ func Search(words string, stype string, page int, limit int) string {
 	// 错误处理
 	if reqErr!= nil {
 		fmt.Println("Fatal error ", reqErr.Error())
-		os.Exit(0)
+		return `{"data": null, "state": false, "msg": "请求失败"}`
 	}
 	defer response.Body.Close()
 	resBody, _ := ioutil.ReadAll(response.Body)
