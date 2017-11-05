@@ -48,16 +48,26 @@ func Search(words string, stype string, page int, limit int) string {
 /**
  * 根据传入id返回生成的mp3地址
  */
-func Download(id string, rate string) string {
-	res, err := http.Get("http://music.163.com/api/song/enhance/download/url?br=" + rate + "&id=" + id)
+func Download(params string, encSecKey string) string {
+	client := &http.Client{}
+	form := url.Values{}
+	form.Set("params", params)
+	form.Set("encSecKey", encSecKey)
+	body := strings.NewReader(form.Encode())
+	request, _ := http.NewRequest("POST", "http://music.163.com/weapi/song/enhance/player/url?csrf_token=", body)
+	request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	request.Header.Set("Referer", "http://music.163.com")
+	request.Header.Set("Content-Length", (string)(body.Len()))
+	// 发起请求
+	response, reqErr := client.Do(request)
 	// 错误处理
-	if err != nil {
-		fmt.Println("Fatal error ", err)
-		return `{code: 0}`
+	if reqErr!= nil {
+		fmt.Println("Fatal error ", reqErr.Error())
+		return `{"data": null, "state": false, "msg": "请求失败"}`
 	}
-	defer res.Body.Close()
-	rs, _ := ioutil.ReadAll(res.Body)
-	return string(rs)
+	defer response.Body.Close()
+	resBody, _ := ioutil.ReadAll(response.Body)
+	return string(resBody)
 }
 
 func SongInfo(id string) string {
