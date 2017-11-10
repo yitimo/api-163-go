@@ -1,17 +1,15 @@
 package homura
 
 import (
-	"github.com/go-martini/martini"
-	"../madoka"
-	"strconv"
 	"encoding/json"
+	"strconv"
+
+	"../madoka"
+	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
 )
 
-
-/**
- * 初始化搜索路由组
- */
+// SearchGroupInit 初始化搜索API组
 func SearchGroupInit(m *martini.ClassicMartini) {
 	m.Group("/search", func(router martini.Router) {
 		router.Get("/:words/:page/:limit", func(p martini.Params, r render.Render) {
@@ -25,6 +23,7 @@ func SearchGroupInit(m *martini.ClassicMartini) {
 		})
 	})
 }
+
 /**
  * 执行搜索并使用render返回json数据
  */
@@ -40,7 +39,7 @@ func doSearch(p martini.Params, r render.Render, t string) {
 	// 拿到字符串结果
 	reqRs := madoka.Search((string)(p["words"]), t, (int)(page), (int)(limit))
 	// 应该可以解析到第一层json
-	var originParse map[string] interface{}
+	var originParse map[string]interface{}
 	if err := json.Unmarshal([]byte(reqRs), &originParse); err != nil || (int)(originParse["code"].(float64)) != 200 {
 		r.JSON(200, map[string]interface{}{"state": false, "msg": "请求失败", "data": nil})
 	} else {

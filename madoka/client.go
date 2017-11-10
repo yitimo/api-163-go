@@ -1,19 +1,15 @@
 package madoka
 
 import (
-	"strings"
 	"fmt"
-	"net/http"
 	"io/ioutil"
+	"net/http"
 	"net/url"
 	"strconv"
+	"strings"
 )
 
-/** 
- * 执行搜索
- * params: 	关键词 类型 页码 数量
- * return:	字符串形式的请求结果
- */
+// Search 执行搜索 params: 关键词 类型 页码 数量 return: 字符串形式的请求结果
 func Search(words string, stype string, page int, limit int) string {
 	// 创建客户端
 	client := &http.Client{}
@@ -36,7 +32,7 @@ func Search(words string, stype string, page int, limit int) string {
 	// 发起请求
 	response, reqErr := client.Do(request)
 	// 错误处理
-	if reqErr!= nil {
+	if reqErr != nil {
 		fmt.Println("Fatal error ", reqErr.Error())
 		return `{"data": null, "state": false, "msg": "请求失败"}`
 	}
@@ -45,9 +41,7 @@ func Search(words string, stype string, page int, limit int) string {
 	return string(resBody)
 }
 
-/**
- * 根据传入id返回生成的mp3地址
- */
+// Download 根据传入id返回生成的mp3地址
 func Download(params string, encSecKey string) string {
 	client := &http.Client{}
 	form := url.Values{}
@@ -61,7 +55,7 @@ func Download(params string, encSecKey string) string {
 	// 发起请求
 	response, reqErr := client.Do(request)
 	// 错误处理
-	if reqErr!= nil {
+	if reqErr != nil {
 		fmt.Println("Fatal error ", reqErr.Error())
 		return `{"data": null, "state": false, "msg": "请求失败"}`
 	}
@@ -70,6 +64,7 @@ func Download(params string, encSecKey string) string {
 	return string(resBody)
 }
 
+// SongInfo 歌曲信息
 func SongInfo(id string) string {
 	res, err := http.Get("http://music.163.com/api/song/detail/?id=" + id + "&ids=[" + id + "]")
 	// 错误处理
@@ -85,7 +80,7 @@ func SongInfo(id string) string {
 /**
 * 传入 搜索类型 页码 数量
 * 返回 搜索类型 偏移 数量
-*/
+ */
 func formatParams(page int, limit int) (string, string) {
 	if page < 1 {
 		page = 1

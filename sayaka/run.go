@@ -2,11 +2,13 @@ package sayaka
 
 import (
 	"net/http"
+
+	"../homura"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
-	"../homura"
 )
 
+// Run 启动martini
 func Run(host string) {
 	m := martini.Classic()
 	m.Use(render.Renderer())

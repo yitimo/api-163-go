@@ -1,13 +1,13 @@
 package madoka
 
 import (
-	"math/rand"
+	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
-	"bytes"
 	"encoding/base64"
 	"fmt"
 	"math/big"
+	"math/rand"
 )
 
 const modulus = "00e0b509f6259df8642dbc35662901477df22677ec152b5ff68ace615bb7b725152b3ab17a876aea8a5aa76d2e417629ec4ee341f56135fccf695280104e0312ecbda92557c93870114af6c9d05c4f7f0c3685b7a46bee255932575cce10b424d813cfe4875d3e82047b97ddef52741d546b8e289dc6935b3ece0462db0a22b8e7"
@@ -16,22 +16,22 @@ const pubKey = "010001"
 const keys = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/"
 const iv = "0102030405060708"
 
-// 传入参数 得到加密后的参数和一个也被加密的秘钥
+// EncParams 传入参数 得到加密后的参数和一个也被加密的秘钥
 func EncParams(param string) (string, string, error) {
 	// 创建 key
-	secKey := createSecretKey(16);
+	secKey := createSecretKey(16)
+	aes1, err1 := aesEncrypt(param, nonce)
 	// 第一次加密 使用固定的 nonce
-	if aes1, err1 := aesEncrypt(param, nonce); err1 != nil {
+	if err1 != nil {
 		return "", "", err1
-	} else {
-		// 第二次加密 使用创建的 key
-		if aes2, err2 := aesEncrypt(aes1, secKey); err2 != nil {
-			return "", "", err2
-		} else {
-			// 得到 加密好的 param 以及 加密好的key
-			return aes2, rsaEncrypt(secKey, pubKey, modulus), nil
-		}
 	}
+	aes2, err2 := aesEncrypt(aes1, secKey)
+	// 第二次加密 使用创建的 key
+	if err2 != nil {
+		return "", "", err2
+	}
+	// 得到 加密好的 param 以及 加密好的key
+	return aes2, rsaEncrypt(secKey, pubKey, modulus), nil
 }
 
 // 创建指定长度的key
@@ -40,7 +40,7 @@ func createSecretKey(size int) string {
 	rs := ""
 	for i := 0; i < size; i++ {
 		pos := rand.Intn(len(keys))
-		rs += keys[pos:pos+1]
+		rs += keys[pos : pos+1]
 	}
 	return rs
 }
@@ -52,13 +52,13 @@ func aesEncrypt(sSrc string, sKey string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	padding := block.BlockSize() - len([]byte(sSrc)) % block.BlockSize()
+	padding := block.BlockSize() - len([]byte(sSrc))%block.BlockSize()
 	src := append([]byte(sSrc), bytes.Repeat([]byte{byte(padding)}, padding)...)
 	model := cipher.NewCBCEncrypter(block, iv)
 	cipherText := make([]byte, len(src))
 	model.CryptBlocks(cipherText, src)
 	// 最后使用base64编码输出
-	return base64.StdEncoding.EncodeToString(cipherText) , nil
+	return base64.StdEncoding.EncodeToString(cipherText), nil
 }
 
 // 将 key 也加密
@@ -66,7 +66,7 @@ func rsaEncrypt(key string, pubKey string, modulus string) string {
 	// 倒序 key
 	rKey := ""
 	for i := len(key) - 1; i >= 0; i-- {
-		rKey += key[i:i+1]
+		rKey += key[i : i+1]
 	}
 	// 将 key 转 ascii 编码 然后转成 16 进制字符串
 	hexRKey := ""
@@ -89,7 +89,7 @@ func rsaEncrypt(key string, pubKey string, modulus string) string {
 func addPadding(encText string, modulus string) string {
 	ml := len(modulus)
 	for i := 0; ml > 0 && modulus[i:i+1] == "0"; i++ {
-		ml--;
+		ml--
 	}
 	num := ml - len(encText)
 	prefix := ""

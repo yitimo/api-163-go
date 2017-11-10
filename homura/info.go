@@ -1,23 +1,21 @@
 package homura
 
 import (
-	"github.com/go-martini/martini"
-	"../madoka"
 	"encoding/json"
+
+	"../madoka"
+	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
 )
 
-
-/**
- * 初始化搜索路由组
- */
+// InfoGroupInit 初始化搜索路由组
 func InfoGroupInit(m *martini.ClassicMartini) {
 	m.Group("/info", func(router martini.Router) {
 		router.Get("/music/:id", func(p martini.Params, r render.Render) {
 			// 拿到字符串结果
 			reqRs := madoka.SongInfo(p["id"])
 			// 应该可以解析到第一层json
-			var originParse map[string] interface{}
+			var originParse map[string]interface{}
 			if err := json.Unmarshal([]byte(reqRs), &originParse); err != nil || (int)(originParse["code"].(float64)) != 200 {
 				r.JSON(200, map[string]interface{}{"state": false, "msg": "请求失败", "data": nil})
 			} else {
