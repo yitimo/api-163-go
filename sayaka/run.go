@@ -18,6 +18,7 @@ func Run(host string) {
 	homura.SearchGroupInit(m)
 	homura.DownloadGroupInit(m)
 	homura.InfoGroupInit(m)
+	homura.LyricGroupInit(m)
 	m.Use(func(res http.ResponseWriter) {
 		// res.Header().Set("Content-Type", "application/json")
 		res.Header().Set("Access-Control-Allow-Origin", "*")

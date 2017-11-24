@@ -77,6 +77,38 @@ func SongInfo(id string) string {
 	return string(rs)
 }
 
+// SongLyric 歌词信息
+func SongLyric(params string, encSecKey string) string {
+	// res, err := http.Get("http://music.163.com/api/song/lyric?os=osx&id=" + id + "&lv=-1&kv=-1&tv=-1")
+	// // 错误处理
+	// if err != nil {
+	// 	fmt.Println("Fatal error ", err)
+	// 	return `{code: 0}`
+	// }
+	// defer res.Body.Close()
+	// rs, _ := ioutil.ReadAll(res.Body)
+	// return string(rs)
+	client := &http.Client{}
+	form := url.Values{}
+	form.Set("params", params)
+	form.Set("encSecKey", encSecKey)
+	body := strings.NewReader(form.Encode())
+	request, _ := http.NewRequest("POST", "http://music.163.com/weapi/song/lyric?csrf_token=", body)
+	request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	request.Header.Set("Referer", "http://music.163.com")
+	request.Header.Set("Content-Length", (string)(body.Len()))
+	// 发起请求
+	response, reqErr := client.Do(request)
+	// 错误处理
+	if reqErr != nil {
+		fmt.Println("Fatal error ", reqErr.Error())
+		return `{"data": null, "state": false, "msg": "请求失败"}`
+	}
+	defer response.Body.Close()
+	resBody, _ := ioutil.ReadAll(response.Body)
+	return string(resBody)
+}
+
 /**
 * 传入 搜索类型 页码 数量
 * 返回 搜索类型 偏移 数量
