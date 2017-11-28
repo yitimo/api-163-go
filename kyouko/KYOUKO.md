@@ -1,0 +1,1 @@
+Kyouko is a lancer that protect sayaka from unhandsome requests !

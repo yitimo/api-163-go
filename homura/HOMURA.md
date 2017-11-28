@@ -1,1 +1,1 @@
-Homura is a gunner to connect between Madoka and Sayaka !
+Homura is Madoka's best friend !
