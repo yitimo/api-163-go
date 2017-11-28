@@ -15,7 +15,7 @@ func Run(host string) {
 	m := martini.Classic()
 	m.Use(render.Renderer())
 	m.Use(cors.Allow(&cors.Options{
-		AllowOrigins:     []string{"http://localhost:3001"},
+		AllowOrigins:     []string{"http://localhost:3001", "https://www.yitimo.com"},
 		AllowMethods:     []string{"GET", "POST"},
 		AllowHeaders:     []string{"Origin", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
