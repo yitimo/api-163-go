@@ -5,6 +5,8 @@ import (
 
 	"../homura"
 	"github.com/go-martini/martini"
+	"github.com/martini-contrib/auth"
+	"github.com/martini-contrib/cors"
 	"github.com/martini-contrib/render"
 )
 
@@ -12,6 +14,16 @@ import (
 func Run(host string) {
 	m := martini.Classic()
 	m.Use(render.Renderer())
+	m.Use(cors.Allow(&cors.Options{
+		AllowOrigins:     []string{"http://localhost:3001"},
+		AllowMethods:     []string{"GET", "POST"},
+		AllowHeaders:     []string{"Origin", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
+	m.Use(auth.BasicFunc(func(username, password string) bool {
+		return auth.SecureCompare(username, "yitimo") && auth.SecureCompare(password, "iamyitimo")
+	}))
 	m.Get("/", func() string {
 		return "Hello this is saber Sayaka !"
 	})
