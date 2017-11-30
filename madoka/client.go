@@ -65,8 +65,8 @@ func Download(params string, encSecKey string) string {
 }
 
 // SongInfo 歌曲信息
-func SongInfo(id string) string {
-	res, err := http.Get("http://music.163.com/api/song/detail/?id=" + id + "&ids=[" + id + "]")
+func SongInfo(ids string) string {
+	res, err := http.Get("http://music.163.com/api/song/detail/?ids=" + ids)
 	// 错误处理
 	if err != nil {
 		fmt.Println("Fatal error ", err)
