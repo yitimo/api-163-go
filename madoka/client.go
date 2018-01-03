@@ -79,15 +79,6 @@ func SongInfo(ids string) string {
 
 // SongLyric 歌词信息
 func SongLyric(params string, encSecKey string) string {
-	// res, err := http.Get("http://music.163.com/api/song/lyric?os=osx&id=" + id + "&lv=-1&kv=-1&tv=-1")
-	// // 错误处理
-	// if err != nil {
-	// 	fmt.Println("Fatal error ", err)
-	// 	return `{code: 0}`
-	// }
-	// defer res.Body.Close()
-	// rs, _ := ioutil.ReadAll(res.Body)
-	// return string(rs)
 	client := &http.Client{}
 	form := url.Values{}
 	form.Set("params", params)

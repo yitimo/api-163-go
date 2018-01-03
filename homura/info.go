@@ -34,7 +34,7 @@ func InfoGroupInit(m *martini.ClassicMartini) {
 		})
 		router.Post("/multi", func(req *http.Request, r render.Render) {
 			req.ParseForm()
-			for data, _ := range req.Form {
+			for data := range req.Form {
 				var pParse map[string]interface{}
 				if err := json.Unmarshal([]byte(data), &pParse); err == nil {
 					reqRs := madoka.SongInfo(formatIds(pParse["ids"].([]interface{})))
