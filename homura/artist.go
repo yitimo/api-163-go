@@ -50,5 +50,24 @@ func ArtistGroupInit(m *martini.ClassicMartini) {
 				r.JSON(200, map[string]interface{}{"state": true, "msg": "success", "data": originParse})
 			}
 		})
+		router.Get("/album/:id/:page/:limit", func(p martini.Params, r render.Render) {
+			page, perr := strconv.ParseInt(p["page"], 0, 32)
+			limit, lerr := strconv.ParseInt(p["limit"], 0, 32)
+			if perr != nil || lerr != nil {
+				r.JSON(200, map[string]interface{}{"state": false, "msg": "参数错误", "data": nil})
+			}
+			reqRs, reqErr := madoka.ArtistAlbum(p["id"], (int)(page), (int)(limit))
+			if reqErr != nil {
+				r.JSON(200, map[string]interface{}{"state": false, "msg": "请求失败", "data": nil})
+				return
+			}
+			// 应该可以解析到第一层json
+			var originParse map[string]interface{}
+			if err := json.Unmarshal([]byte(reqRs), &originParse); err != nil || (int)(originParse["code"].(float64)) != 200 {
+				r.JSON(200, map[string]interface{}{"state": false, "msg": "请求失败", "data": nil})
+			} else {
+				r.JSON(200, map[string]interface{}{"state": true, "msg": "success", "data": originParse})
+			}
+		})
 	})
 }

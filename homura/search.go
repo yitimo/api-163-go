@@ -37,7 +37,11 @@ func doSearch(p martini.Params, r render.Render, t string) {
 		limit = 10
 	}
 	// 拿到字符串结果
-	reqRs := madoka.Search((string)(p["words"]), t, (int)(page), (int)(limit))
+	reqRs, reqErr := madoka.Search((string)(p["words"]), t, (int)(page), (int)(limit))
+	if reqErr != nil {
+		r.JSON(200, map[string]interface{}{"state": false, "msg": "请求失败", "data": nil})
+		return
+	}
 	// 应该可以解析到第一层json
 	var originParse map[string]interface{}
 	if err := json.Unmarshal([]byte(reqRs), &originParse); err != nil || (int)(originParse["code"].(float64)) != 200 {

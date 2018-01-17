@@ -114,3 +114,15 @@ func fakeAgent() string {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	return userAgentList[r.Intn(19)]
 }
+
+func formatIdc(ids string) string {
+	_ids := ids[1:len(ids)-1]
+	idStrList := strings.Split(_ids, ",")
+	rs := "[";
+	for _, id := range idStrList {
+		rs += "{id:" + id + "},"
+	}
+	rs = rs[:len(rs)-1]
+	rs += "]"
+	return rs
+}
