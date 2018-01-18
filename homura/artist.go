@@ -18,7 +18,7 @@ func ArtistGroupInit(m *martini.ClassicMartini) {
 				r.JSON(200, map[string]interface{}{"state": false, "msg": "参数错误", "data": nil})
 			}
 			// 发送POST请求得到最后包含url的结果
-			reqRs, reqErr := madoka.ArtistTop((int)(page), (int)(limit))
+			reqRs, reqErr := madoka.TopArtist((int)(page), (int)(limit))
 			if reqErr != nil {
 				r.JSON(200, map[string]interface{}{"state": false, "msg": "请求失败", "data": nil})
 				return
@@ -37,7 +37,7 @@ func ArtistGroupInit(m *martini.ClassicMartini) {
 			if perr != nil || lerr != nil {
 				r.JSON(200, map[string]interface{}{"state": false, "msg": "参数错误", "data": nil})
 			}
-			reqRs, reqErr := madoka.ArtistSong(p["id"], (int)(page), (int)(limit))
+			reqRs, reqErr := madoka.Artist(p["id"], (int)(page), (int)(limit))
 			if reqErr != nil {
 				r.JSON(200, map[string]interface{}{"state": false, "msg": "请求失败", "data": nil})
 				return

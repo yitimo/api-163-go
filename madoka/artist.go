@@ -1,7 +1,7 @@
 package madoka
 
-// ArtistTop - get top list of artists
-func ArtistTop(page, limit int) (string, error) {
+// TopArtist - get top list of artists
+func TopArtist(page, limit int) (string, error) {
 	// 1. transfer page, limit into offset, limit
 	_offset, _limit := formatParams(page, limit)
 	// 2. encode request params
@@ -18,8 +18,8 @@ func ArtistTop(page, limit int) (string, error) {
 	return res, nil
 }
 
-// ArtistSong - get songs if artist by id
-func ArtistSong(id string, page, limit int) (string, error) {
+// Artist - get artist by id with hot songs
+func Artist(id string, page, limit int) (string, error) {
 	_offset, _limit := formatParams(page, limit)
 	preParams := "{\"offset\": "+ _offset +", \"limit\": "+_limit +", \"csrf_token\": \"\"}"
 	params, encSecKey, encErr := EncParams(preParams)
@@ -33,6 +33,7 @@ func ArtistSong(id string, page, limit int) (string, error) {
 	return res, nil
 }
 
+// ArtistAlbum - album of artist
 func ArtistAlbum(id string, page, limit int) (string, error) {
 	_offset, _limit := formatParams(page, limit)
 	preParams := "{\"offset\": "+ _offset +", \"limit\": "+_limit +", \"total\": true, \"csrf_token\": \"\"}"
