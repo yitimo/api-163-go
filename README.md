@@ -34,11 +34,12 @@ So if you want to call this api, just ``clone`` it, update with your auth config
 | :page  | pagination, start from ``1`` | yes       |
 | :limit | item number per page         | yes       |
 
-| path           | desc          |
-|----------------|---------------|
-| /search        | search song   |
-| /search/album  | search album  |
-| /search/artist | search artist |
+| path             | desc            |
+|------------------|-----------------|
+| /search          | search song     |
+| /search/album    | search album    |
+| /search/artist   | search artist   |
+| /search/playlist | search playlist |
 
 ### Downlod
 Edit soon ...

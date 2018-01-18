@@ -22,7 +22,7 @@ func InfoGroupInit(m *martini.ClassicMartini) {
 			if err := json.Unmarshal([]byte(reqRs), &originParse); err != nil || (int)(originParse["code"].(float64)) != 200 {
 				r.JSON(200, map[string]interface{}{"state": false, "msg": "请求失败", "data": nil})
 			} else {
-				r.JSON(200, map[string]interface{}{"state": true, "msg": "success", "data": originParse["songs"]})
+				r.JSON(200, map[string]interface{}{"state": true, "msg": "success", "data": originParse})
 			}
 		})
 		router.Post("/", func(req *http.Request, r render.Render) {
@@ -39,7 +39,7 @@ func InfoGroupInit(m *martini.ClassicMartini) {
 					if err := json.Unmarshal([]byte(reqRs), &originParse); err != nil || (int)(originParse["code"].(float64)) != 200 {
 						r.JSON(200, map[string]interface{}{"state": false, "msg": "请求失败", "data": nil})
 					} else {
-						r.JSON(200, map[string]interface{}{"state": true, "msg": "success", "data": originParse["songs"]})
+						r.JSON(200, map[string]interface{}{"state": true, "msg": "success", "data": originParse})
 					}
 				} else {
 					r.JSON(200, map[string]interface{}{"state": false, "msg": "参数错误", "data": nil})
