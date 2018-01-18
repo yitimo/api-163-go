@@ -21,6 +21,9 @@ func SearchGroupInit(m *martini.ClassicMartini) {
 		router.Get("/artist/:words/:page/:limit", func(p martini.Params, r render.Render) {
 			doSearch(p, r, "100")
 		})
+		router.Get("/playlist/:words/:page/:limit", func(p martini.Params, r render.Render) {
+			doSearch(p, r, "1000")
+		})
 	})
 }
 
