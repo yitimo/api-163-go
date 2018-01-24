@@ -24,6 +24,7 @@ func Run(host string) {
 	homura.LyricGroupInit(m)
 	homura.ArtistGroupInit(m)
 	homura.AlbumGroupInit(m)
+	homura.PlayListGroupInit(m)
 	m.Use(func(res http.ResponseWriter) {
 		res.Header().Set("Access-Control-Allow-Origin", "*")
 	})

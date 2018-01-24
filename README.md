@@ -1,5 +1,6 @@
 # api-163-go
 Yitimo's 163 api in golang. Study use only.
+See the project [here](https://github.com/yitimo/api-163-go/projects/1).
 
 Notes:
 1. this is just a RESTful api, so you still need to have a client.
@@ -28,18 +29,32 @@ Currently it's using a martini submodule.
 So if you want to call this api, just ``clone`` it, update with your auth config and run in your own server.
 ## Currently APIs
 ### Search
-| param  | desc                         | is needed |
-|--------|------------------------------|-----------|
-| :words | search words                 | yes       |
-| :page  | pagination, start from ``1`` | yes       |
-| :limit | item number per page         | yes       |
+param  | desc                         | is needed
+-------|------------------------------|-----------
+:words | search words                 | yes
+:page  | pagination, start from ``1`` | yes
+:limit | item number per page         | yes
 
-| path             | desc            |
-|------------------|-----------------|
-| /search          | search song     |
-| /search/album    | search album    |
-| /search/artist   | search artist   |
-| /search/playlist | search playlist |
+path             | desc
+-----------------|-----------------
+/search          | search song
+/search/album    | search album
+/search/artist   | search artist
+/search/playlist | search playlist
+
+### PlayList
+param   | desc                         | isneeded
+--------|------------------------------|-----------
+:cat    | catalogue in chinese         | yes
+:order  | hot or new                   | yes
+:page   | pagination, start from ``1`` | yes
+:limit  | item number per page         | yes
+
+path                                 | desc                        
+-------------------------------------|-----------------------------
+/playlist/catalogue                  | get all catalogues
+/playlist/:cat/:order/:page/:limit   | get playlists by cat&order
+/playlist/detail/:id                 | get playlist detail by id
 
 ### Downlod
 Edit soon ...
