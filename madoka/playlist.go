@@ -3,7 +3,7 @@ package madoka
 // PlayList - get playlist by cat&order
 func PlayList(cat, order string, page, limit int) (string, error) {
 	_offset, _limit := formatParams(page, limit)
-	preParams := "{\"cat\":\""+cat+"\", \"order\":\""+order+"\", \"offset\":\""+_offset+"\", \"limit\":\""+_limit+"\", \"total\": \"true\"}"
+	preParams := "{\"cat\":\"" + cat + "\", \"order\":\"" + order + "\", \"offset\":\"" + _offset + "\", \"limit\":\"" + _limit + "\", \"total\": \"true\"}"
 	params, encSecKey, encErr := EncParams(preParams)
 	if encErr != nil {
 		return "", encErr
@@ -17,7 +17,7 @@ func PlayList(cat, order string, page, limit int) (string, error) {
 
 // PlayListDetail - get playlist detail by id
 func PlayListDetail(id string) (string, error) {
-	preParams := "{\"id\": \""+id+"\", \"n\": 100000, \"csrf_token\": \"\"}"
+	preParams := "{\"id\": \"" + id + "\", \"n\": 100000, \"csrf_token\": \"\"}"
 	params, encSecKey, encErr := EncParams(preParams)
 	if encErr != nil {
 		return "", encErr
@@ -29,7 +29,7 @@ func PlayListDetail(id string) (string, error) {
 	return res, nil
 }
 
-// PlayListCategory - get cat list
+// PlayListCatalogue - get cat list
 func PlayListCatalogue() (string, error) {
 	preParams := "{\"csrf_token\": \"\"}"
 	params, encSecKey, encErr := EncParams(preParams)
