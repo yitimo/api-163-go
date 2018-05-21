@@ -1,0 +1,4 @@
+{
+    "whitelist": ["http://localhost:8080", "http://localhost:3001", "https://www.yitimo.com", "https://yitimo.com"],
+    "listen": "0.0.0.0:9999"
+}

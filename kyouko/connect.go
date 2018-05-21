@@ -6,9 +6,13 @@ import (
 )
 
 // ConnectInit 连接守卫
-func ConnectInit(m *martini.ClassicMartini) {
+func ConnectInit(m *martini.ClassicMartini, whitelist []interface{}) {
+	list := make([]string, 0)
+	for l := range whitelist {
+		list = append(list, (string)(l))
+	}
 	m.Use(cors.Allow(&cors.Options{
-		AllowOrigins:     []string{"http://localhost:8080", "http://localhost:3001", "https://www.yitimo.com", "https://yitimo.com"},
+		AllowOrigins:     list,
 		AllowMethods:     []string{"GET", "POST"},
 		AllowHeaders:     []string{"Origin", "Authorization", "Content-Type"},
 		ExposeHeaders:    []string{"Content-Length"},

@@ -10,10 +10,10 @@ import (
 )
 
 // Run 启动martini
-func Run(host string) {
+func Run(config map[string]interface{}) {
 	m := martini.Classic()
 	m.Use(render.Renderer())
-	kyouko.ConnectInit(m)
+	kyouko.ConnectInit(m, config["whitelist"].([]interface{}))
 	kyouko.AuthInit(m)
 	m.Get("/", func() string {
 		return "Hello this is saber Sayaka !"
@@ -31,5 +31,5 @@ func Run(host string) {
 	m.NotFound(func() string {
 		return "Sorry, Sayaka can not understand what you asked :("
 	})
-	m.RunOnAddr(host)
+	m.RunOnAddr(config["listen"].(string))
 }
