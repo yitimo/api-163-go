@@ -1,7 +1,7 @@
 package madoka
 
 func Album(id string) (string, error) {
-	preParams := "{\"id\": "+ id +", \"csrf_token\": \"\"}"
+	preParams := "{\"id\": " + id + ", \"csrf_token\": \"\"}"
 	params, encSecKey, encErr := EncParams(preParams)
 	if encErr != nil {
 		return "", encErr

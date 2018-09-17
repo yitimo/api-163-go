@@ -2,7 +2,9 @@ package homura
 
 import (
 	"encoding/json"
+
 	"../madoka"
+	"../mami"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
 )
@@ -14,7 +16,8 @@ func AlbumGroupInit(m *martini.ClassicMartini) {
 			// 发送POST请求得到最后包含url的结果
 			reqRs, reqErr := madoka.Album(p["id"])
 			if reqErr != nil {
-				r.JSON(200, map[string]interface{}{"state": false, "msg": "请求失败", "data": nil})
+				res := mami.Res{false, 99999, "", nil}
+				r.JSON(200, res)
 				return
 			}
 			// 应该可以解析到第一层json
